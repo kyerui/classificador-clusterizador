@@ -9,17 +9,13 @@ from pickle import dump
 
 pd.set_option('display.max_columns', None)
 
-telescope = pd.read_csv('telescope.csv', sep = ',')
+telescope = pd.read_csv('Clusterizador/dados/telescope_final.csv', sep = ',')
 
 #1 Normalizar os dados
 #1.1 Segmentar dados numéricos e dados categóricos
-dados_numericos = telescope.drop(columns=['class'])
-dados_categoricos = telescope[['class']]
-dados_categoricos_normalizados = pd.get_dummies(data= dados_categoricos, dtype='int16')
 
-colunas_categoricas = dados_categoricos_normalizados.columns
-with open("colunas_categoricas.pkl", "wb") as f:
-    dump(colunas_categoricas, f)
+
+dados_numericos = telescope
     
     
 #1.2 Gerar o modelo normalizador para uso posterior
@@ -33,9 +29,8 @@ dados_numericos_normalizados = normalizador.fit_transform(dados_numericos) #o m�
 #converter o ndarray em data frame
 
 dados_finais = pd.DataFrame(dados_numericos_normalizados)
-dados_finais = dados_finais.join(dados_categoricos_normalizados, how = 'left')
 
-dump(neo_normalizador, open('normalizador.pkl','wb'))
+dump(neo_normalizador, open('Clusterizador/dados/normalizador.pkl','wb'))
 
 
 
@@ -76,4 +71,4 @@ n_clusters_otimo = K[distancias.index(np.max(distancias))]
 
 telescope_kmeans_model = KMeans(n_clusters = n_clusters_otimo, random_state=42).fit(dados_finais)
 
-dump(telescope_kmeans_model, open("telescope_cluster.pkl", "wb"))
+dump(telescope_kmeans_model, open("Clusterizador/dados/telescope_cluster.pkl", "wb"))
