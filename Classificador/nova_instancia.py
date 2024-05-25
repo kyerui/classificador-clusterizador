@@ -21,7 +21,9 @@ classe_predita = sdss_classificador.classes_[indice]
 score = dist_proba[0][indice]
 
 # Exibir o resultado
+print("\n########################################################################\n")
 print("Classificado como:", classe_predita)
 print('Score:', str(score))
 print("Índice da classe predita:", np.argmax(dist_proba[0]))
 print("Classes disponíveis no modelo:", sdss_classificador.classes_)
+print("\n########################################################################")

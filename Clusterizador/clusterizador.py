@@ -7,35 +7,24 @@ import numpy as np #Para procedimentos numéricos
 from sklearn.preprocessing import  MinMaxScaler #Classe normalizadora
 from pickle import dump
 
+
 pd.set_option('display.max_columns', None)
 
 telescope = pd.read_csv('Clusterizador/dados/telescope_final.csv', sep = ',')
+dados_numericos = telescope
 
 #1 Normalizar os dados
-#1.1 Segmentar dados numéricos e dados categóricos
 
-
-dados_numericos = telescope
-    
-    
-#1.2 Gerar o modelo normalizador para uso posterior
 normalizador = MinMaxScaler()
-neo_normalizador = normalizador.fit(dados_numericos) #o método fit() gera o modelo para normalização
+neo_normalizador = normalizador.fit(dados_numericos) #o método 
 
-dados_numericos_normalizados = normalizador.fit_transform(dados_numericos) #o método fit_transform gera os dados normalizados
-
-#1.4. Recompor os dados na forma de data frames
-#Incorporar os dados normalizados em um único objeto
-#converter o ndarray em data frame
-
+dados_numericos_normalizados = normalizador.fit_transform(dados_numericos)
 dados_finais = pd.DataFrame(dados_numericos_normalizados)
 
 dump(neo_normalizador, open('Clusterizador/dados/normalizador.pkl','wb'))
 
-
-
 distortions = []
-K = range(1, 101)
+K = range(1, 200)
 dados_finais.columns = dados_finais.columns.astype(str)
 
 for i in K:
@@ -47,10 +36,8 @@ fig, ax = plt.subplots()
 ax.plot(K, distortions)
 ax.set(xlabel = 'n Clusters', ylabel = 'Distorção', title = 'Elbow pela distorção')
 ax.grid()
-fig.savefig('elbow_distorcao.png')
+fig.savefig('Clusterizador/dados/elbow_distorcao.png')
 plt.show()
-
-
 
 # Calcular o número ótimo de clusters
 x0 = K[0]

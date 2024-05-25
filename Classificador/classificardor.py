@@ -9,7 +9,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from pickle import dump
 from imblearn.over_sampling import SMOTE
-import matplotlib.pyplot as plt
 from collections import Counter
 
 
@@ -106,7 +105,7 @@ print("Acurácia no conjunto de teste: ", test_accuracy)
 
 
 ####################################################################################################################################
-# AVALIAÇÃO DA ACURÁCIA COM CROSS VALIDATION
+# AVALIAÇÃO DA ACURÁCIA COM CROSS VALIDATION E TREINO
 
 
 tree = DecisionTreeClassifier(criterion=grid_search.best_params_['criterion'], splitter=grid_search.best_params_['splitter'], max_depth=grid_search.best_params_['max_depth'], min_samples_split=grid_search.best_params_['min_samples_split'], min_samples_leaf=grid_search.best_params_['min_samples_leaf'], max_features=grid_search.best_params_['max_features'])
@@ -125,10 +124,3 @@ print(score_cross_val.mean(), ' - ', score_cross_val.std())
 
 # Salvar o modelo para uso posterior
 dump(tree, open('Classificador/dados/sdss_tree_model_cross.pkl', 'wb'))
-
-
-
-
-
-
-
